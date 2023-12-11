@@ -1,2 +1,2 @@
-export { db } from './db';
 export { app } from './app';
+export { db } from './db';

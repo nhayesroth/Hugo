@@ -5,7 +5,6 @@ import { Application } from "../Types/Application";
  * allow saving of incomplete applications.
  */
 export function isApplicationValid(application: Application): boolean {
-  // TODO: perform other validation requirements
   return (
     (application.dob.trim() == '' || isValidDateOfBirth(application.dob))
   );
@@ -19,4 +18,3 @@ function isValidDateOfBirth(dob: string): boolean {
 
   return date <= minAgeDate;
 }
-

@@ -25,6 +25,8 @@ Hugo/frontend $ npm start
 - Nothing is tested. So, add tests for all the things.
 - Share code between backend and frontend where possible (rather than duplicating e.g. ApplicationData and getErrors).
 - Delete a bunch of auto-generated code/files that I suspect are not needed.
+- More consistent organization. I started assuming I'd have more than 1 feature. So, the backend code is organized into an `applications` feature folder, but the frontend isn't. It should be consistent.
+- Get a better linter that enforces consistent styles.
 
 #### Backend
 - Consider extracting a DB layer/interface beyond the backend API handlers. I wanted to persist the request at submission time, but the current scheme didn't allow it. So, I had to add that client-side. Not ideal.

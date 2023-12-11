@@ -1,21 +1,15 @@
 import { Request, Response } from 'express';
 import { db } from '../../common';
-import { Application } from '../Types/Application';
-import { isApplicationValid } from '../helpers/isApplicationValid';
 
 export function update(req: Request, res: Response) {
   const { id } = req.params;
   const updateFields = req.body;
-  
+
   console.log(`\nUPDATE - received request for ${id}: ${JSON.stringify(updateFields)}`);
-
-
-  // TODO: validate update is valid
 
   // Update route to patch an existing insurance application by ID
   db.get('SELECT * FROM InsuranceApplication WHERE id = ?', [id], (err, row) => {
 
-    
     if (err) {
       console.log(`UPDATE - ERROR when retrieving ${id}: ${err.message}`);
       return res.status(500).json({ error: 'Internal server error' });

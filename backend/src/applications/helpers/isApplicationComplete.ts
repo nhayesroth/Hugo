@@ -7,7 +7,6 @@ export function isApplicationComplete(application: Application) {
         && areVehiclesValid(application);
 }
 
-
 function areVehiclesValid(application: Application): boolean {
     const errors: Object[] = [];
     errors.push(...validateVehicle(application.vin1, application.year1, application.make1, application.model1, 1));

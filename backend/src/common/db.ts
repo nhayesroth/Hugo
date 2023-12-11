@@ -1,7 +1,5 @@
-// Backend code structure (simplified)
 import sqlite3 from 'sqlite3';
 
-// SQLite database setup (in-memory)
 const db = new sqlite3.Database(':memory:');
 db.serialize(() => {
   db.run(`CREATE TABLE InsuranceApplication (

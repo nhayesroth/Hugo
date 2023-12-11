@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
 import { db } from '../../common';
-import { Application } from '../Types/Application';
-import { isApplicationValid } from '../helpers/isApplicationValid';
 
 export function get(req: Request, res: Response) {
   console.log(`\nGET - request received: ${JSON.stringify({ body: req.body, params: req.params })}`);
