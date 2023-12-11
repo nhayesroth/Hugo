@@ -12,10 +12,9 @@ export function defaultApplicationData(): ApplicationData {
         city: '',
         state: '',
         zipCode: 0,
-        vehicleCount: 1,
-        vin: '',
-        year: 2000,
-        make: '',
-        model: '',
+        vin1: '',
+        year1: 2000,
+        make1: '',
+        model1: ''
     };
 }

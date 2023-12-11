@@ -8,15 +8,15 @@ export function isApplicationValid(application: Application): boolean {
   // TODO: perform other validation requirements
   return (
     (application.dob.trim() == '' || isValidDateOfBirth(application.dob))
-    && areVehiclesValid(application)
   );
 }
 
 function isValidDateOfBirth(dob: string): boolean {
-  throw new Error("Function not implemented.");
-}
+  const date = new Date(dob);
+  const currentDate = new Date();
+  const minAgeDate = new Date();
+  minAgeDate.setFullYear(currentDate.getFullYear() - 16);
 
-function areVehiclesValid(application: Application): boolean {
-  throw new Error("Function not implemented.");
+  return date <= minAgeDate;
 }
 

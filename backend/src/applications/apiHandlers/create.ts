@@ -24,8 +24,8 @@ export function create(req: Request, res: Response) {
   // Insert data into the database
   db.run(
     `INSERT INTO InsuranceApplication 
-    (firstName, lastName, dob, street, city, state, zipCode, vehicleCount, vin, year, make, model) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    (firstName, lastName, dob, street, city, state, zipCode, vin1, year1, make1, model1, vin2, year2, make2, model2, vin3, year3, make3, model3) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       newApplication.firstName,
       newApplication.lastName,
@@ -34,15 +34,22 @@ export function create(req: Request, res: Response) {
       newApplication.city,
       newApplication.state,
       newApplication.zipCode,
-      newApplication.vehicleCount,
-      newApplication.vin,
-      newApplication.year,
-      newApplication.make,
-      newApplication.model,
+      newApplication.vin1,
+      newApplication.year1,
+      newApplication.make1,
+      newApplication.model1,
+      newApplication.vin2,
+      newApplication.year2,
+      newApplication.make2,
+      newApplication.model2,
+      newApplication.vin3,
+      newApplication.year3,
+      newApplication.make3,
+      newApplication.model3,
     ],
     function (error) {
       if (error) {
-        console.log(`CREATE - ERROR - failed to persist application due to ${error}: ${JSON.stringify(req.body)}`);
+        console.log(`CREATE - ERROR - failed to persist application due to ${JSON.stringify(error)}: ${JSON.stringify(req.body)}`);
         return res.status(500).json({ error: 'Failed to insert application into the database' });
       }
 
@@ -50,7 +57,7 @@ export function create(req: Request, res: Response) {
       const id = this.lastID;
       console.log(`CREATE - successfully created application ${id}: ${JSON.stringify({ id, ...req.body })}`);
 
-      // Return a  route pointing to the frontend URL with the new application ID
+      // Return a route pointing to the frontend URL with the new application ID
       res.json({
         message: "Application saved successfully",
         application: { id }

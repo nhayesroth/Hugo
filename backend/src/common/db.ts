@@ -13,11 +13,18 @@ db.serialize(() => {
     city TEXT,
     state TEXT,
     zipCode INTEGER,
-    vehicleCount INTEGER CHECK(vehicleCount >= 1 AND vehicleCount <= 3),
-    vin TEXT,
-    year INTEGER,
-    make TEXT,
-    model TEXT
+    vin1 TEXT,
+    year1 INTEGER,
+    make1 TEXT,
+    model1 TEXT,
+    vin2 TEXT,
+    year2 INTEGER,
+    make2 TEXT,
+    model2 TEXT,
+    vin3 TEXT,
+    year3 INTEGER,
+    make3 TEXT,
+    model3 TEXT
   )`);
 });
 

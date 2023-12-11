@@ -1,4 +1,3 @@
-// InsuranceForm.tsx
 import axios from 'axios';
 import { useApplicationData } from 'hooks/useApplicationData';
 import _ from 'lodash';
@@ -23,10 +22,21 @@ const fields: Field[] = [
   { type: 'text', name: 'city', spanText: 'City', value: '' },
   { type: 'text', name: 'state', spanText: 'State', value: '' },
   { type: 'number', name: 'zipCode', spanText: 'ZipCode', value: 0 },
-  { type: 'text', name: 'vin', spanText: 'Vehicle VIN', value: '' },
-  { type: 'number', name: 'year', spanText: 'Vehicle Year', value: 0 },
-  { type: 'text', name: 'make', spanText: 'Vehicle Make', value: '' },
-  { type: 'text', name: 'model', spanText: 'Vehicle Model', value: '' },
+
+  { type: 'text', name: 'vin1', spanText: 'Vehicle 1 VIN', value: '' },
+  { type: 'number', name: 'year1', spanText: 'Vehicle 1 Year', value: 0 },
+  { type: 'text', name: 'make1', spanText: 'Vehicle 1 Make', value: '' },
+  { type: 'text', name: 'model1', spanText: 'Vehicle 1 Model', value: '' },
+
+  { type: 'text', name: 'vin2', spanText: 'Vehicle 2 VIN', value: '' },
+  { type: 'number', name: 'year2', spanText: 'Vehicle 2 Year', value: 0 },
+  { type: 'text', name: 'make2', spanText: 'Vehicle 2 Make', value: '' },
+  { type: 'text', name: 'model2', spanText: 'Vehicle 2 Model', value: '' },
+
+  { type: 'text', name: 'vin3', spanText: 'Vehicle 3 VIN', value: '' },
+  { type: 'number', name: 'year3', spanText: 'Vehicle 3 Year', value: 0 },
+  { type: 'text', name: 'make3', spanText: 'Vehicle 3 Make', value: '' },
+  { type: 'text', name: 'model3', spanText: 'Vehicle 3 Model', value: '' },
 ];
 
 /**
@@ -40,22 +50,25 @@ export function ApplicationForm({ applicationData, onSave }: Props): JSX.Element
   const { formData, setFormData } = useApplicationData({ applicationData });
   const navigate = useNavigate();
   const [errors, setErrors] = useState<FieldError[]>(fields.map(field => ({ name: field.name })));
+  const [hasPendingChenges, setHasPendingChanges] = useState<Boolean>(false);
   useEffect(() => {
     const currentErrors = getErrors(formData);
     if (!_.isEqual(errors, currentErrors)) {
       setErrors(currentErrors);
     }
-  }, [formData, errors])
+  }, [formData, errors]);
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setHasPendingChanges(true);
   };
 
   async function handleSave(event: FormEvent) {
     event.preventDefault();
     try {
       onSave(formData);
+      setHasPendingChanges(false);
     } catch (error) {
       alert('Error encountered while saving the application: ' + error);
     }
@@ -93,12 +106,19 @@ export function ApplicationForm({ applicationData, onSave }: Props): JSX.Element
   }
 
   function canSubmit(): boolean {
-    return !!id && errors.length === 0;
+    return !!id
+      && errors.length === 0
+      && !hasPendingChenges;
+  }
+
+  // Function to get field value based on its name
+  function getFieldValue(fieldName: string): string | number {
+    return String(formData[fieldName as keyof ApplicationData]) || '';
   }
 
   return (
     <form onSubmit={handleSave}>
-      {fields.map((field, index) => (
+      {fields.filter((field) => !field.name.startsWith("vehicle")).map((field, index) => (
         <label key={index}>
           <span>{field.spanText}:</span>
           <input
@@ -111,6 +131,7 @@ export function ApplicationForm({ applicationData, onSave }: Props): JSX.Element
           />
         </label>
       ))}
+
       <div className="button-group">
         <button onClick={handleNewApplication}>New Application</button>
         <button onClick={handleSave}>Save</button>

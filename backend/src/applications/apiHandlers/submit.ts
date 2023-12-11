@@ -1,15 +1,11 @@
 import { Request, Response } from 'express';
 import { db } from '../../common';
 import { Application } from '../Types/Application';
-import { isApplicationValid } from '../helpers/isApplicationValid';
-import { isApplicationComplete } from '../helpers';
+import { getErrors } from '../helpers';
 
 export function submit(req: Request, res: Response) {
   console.log(`\nSUBMIT - request received:  ${JSON.stringify(req.body)}`);
   const { id } = req.params;
-
-  // TODO: maybe ask them to save/discard before submitting
-  // TODO: maybe commit changes then price
 
   db.get('SELECT * FROM InsuranceApplication WHERE id = ?', [id], (err, application: Application) => {
     if (err) {
@@ -23,10 +19,10 @@ export function submit(req: Request, res: Response) {
       return res.status(404).json({ error: 'Insurance application not found' });
     }
 
-    // TODO: it would be better to return a map<field, error> to inform user where the issues are
-    if (!isApplicationValid(application) || !isApplicationComplete(application)) {
-      console.log(`SUBMIT - ERROR - application is not valid: ${JSON.stringify(req.body)}`);
-      return res.status(400).json({ error: 'Invalid application data', reason: "foobar" });
+    const errors = getErrors(application);
+    if (errors.length !== 0) {
+      console.log(`SUBMIT - ERROR - application is not valid: ${JSON.stringify(errors)}`);
+      return res.status(400).json({ error: 'Invalid application data', reason: errors });
     }
 
 
